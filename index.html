@@ -6,7 +6,7 @@
 <title>Khushi</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600;700&family=Noto+Sans:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&display=swap');
- 
+
   :root{
     --deep:#080B1A;
     --panel:rgba(22,26,54,0.55);
@@ -37,7 +37,7 @@
     --text-lo:#8A90B8;
     --glow:0 0 28px rgba(91,140,255,0.2);
   }
- 
+
   *{box-sizing:border-box;}
   html,body{height:100%;}
   body{
@@ -53,7 +53,7 @@
     overflow:hidden;
     transition:background 0.3s, color 0.3s;
   }
- 
+
   /* ---------------- sidebar ---------------- */
   .sidebar{
     width:220px;
@@ -111,7 +111,7 @@
     color:var(--text-mid);
     cursor:pointer;
   }
- 
+
   /* ---------------- main area ---------------- */
   .app{flex:1; display:flex; flex-direction:column; min-height:0;}
   .topbar{
@@ -132,10 +132,10 @@
     display:none;
   }
   .banner.show{display:block;}
- 
+
   .view{flex:1; overflow-y:auto; padding:24px 26px; display:none;}
   .view.active{display:block;}
- 
+
   .card{
     background:var(--panel);
     backdrop-filter:blur(var(--glass-blur));
@@ -149,7 +149,7 @@
   .card:hover{box-shadow:0 8px 32px rgba(20,25,60,0.25), 0 0 24px rgba(91,140,255,0.12);}
   .grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
   @media (max-width:900px){.grid{grid-template-columns:1fr;}}
- 
+
   /* ---------------- dashboard ---------------- */
   .greet-card{
     background:linear-gradient(120deg, rgba(176,132,240,0.16), rgba(79,224,240,0.10));
@@ -180,7 +180,7 @@
     font-family:'Noto Sans',sans-serif;
   }
   .quick-actions button:hover{border-color:var(--cyan); color:var(--cyan);}
- 
+
   .status-row{display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-bottom:18px;}
   @media (max-width:700px){.status-row{grid-template-columns:1fr;}}
   .status-card{padding:14px 16px;}
@@ -190,7 +190,7 @@
   .dot-blue{background:var(--blue); box-shadow:0 0 8px 2px rgba(91,140,255,0.6);}
   .dot-violet{background:var(--violet); box-shadow:0 0 8px 2px rgba(176,132,240,0.6); animation:dot-pulse 1.8s ease-in-out infinite;}
   @keyframes dot-pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
- 
+
   .quick-grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -216,7 +216,7 @@
     border-color:var(--cyan); color:var(--text-hi); transform:translateY(-2px);
     box-shadow:0 0 20px rgba(79,224,240,0.15);
   }
- 
+
   /* ---------------- chat view ---------------- */
   .chat-layout{display:flex; height:100%; gap:20px;}
   .avatar-col{
@@ -240,7 +240,7 @@
     animation:glow-pulse 1s ease-in-out infinite;
   }
   @keyframes glow-pulse{0%,100%{opacity:0.6; transform:scale(1);}50%{opacity:1; transform:scale(1.07);}}
- 
+
   .particle{
     position:absolute;
     width:3px; height:3px;
@@ -259,7 +259,7 @@
     0%,100%{transform:translate(0,0); opacity:0.5;}
     50%{transform:translate(6px,-14px); opacity:1;}
   }
- 
+
   .avatar-figure{width:130px; height:185px; will-change:transform;}
   .avatar-figure.idle{animation:idle-breathe 4s ease-in-out infinite;}
   .avatar-col.listening .avatar-figure{animation:head-tilt 1.6s ease-in-out infinite;}
@@ -313,7 +313,7 @@
   .avatar-col.speaking #browRight{d:path('M52,43 Q57,40 62,44');}
   .avatar-col.listening #browLeft{d:path('M38,45 Q43,41 48,44');}
   .avatar-col.listening #browRight{d:path('M52,44 Q57,41 62,45');}
- 
+
   /* shoulders + hands */
   .shoulders{fill:url(#suitGrad); stroke:rgba(140,150,255,0.35); stroke-width:0.6;}
   .collar{stroke:var(--cyan); stroke-width:1; opacity:0.5;}
@@ -333,7 +333,7 @@
     0%,100%{transform:rotate(0deg) translateY(0);}
     50%{transform:rotate(8deg) translateY(-2px);}
   }
- 
+
   /* voice waveform */
   .voice-waveform{
     position:absolute;
@@ -351,7 +351,7 @@
     background:linear-gradient(180deg, var(--cyan), var(--violet));
     transition:height 0.09s ease;
   }
- 
+
   /* thinking ring */
   .thinking-ring{
     position:absolute; inset:0; width:100%; height:100%;
@@ -364,7 +364,7 @@
   }
   .avatar-col.thinking .thinking-ring{opacity:0.6; animation:spin-cw 2.5s linear infinite;}
   @keyframes spin-cw{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
- 
+
   .avatar-name{font-family:'Poppins',sans-serif; font-weight:600; font-size:16px;}
   .avatar-status{font-size:12px; color:var(--text-lo); margin-top:2px; text-align:center; min-height:16px;}
   .mic-btn{
@@ -377,7 +377,7 @@
   .mic-btn.listening{animation:mic-pulse 1s infinite; background:var(--cyan);}
   @keyframes mic-pulse{0%,100%{box-shadow:0 0 0 0 rgba(95,224,200,0.5);}50%{box-shadow:0 0 0 14px rgba(95,224,200,0);}}
   .mic-hint{font-size:10.5px; color:var(--text-lo); margin-top:8px; text-align:center;}
- 
+
   .chat-col{flex:1; display:flex; flex-direction:column; min-height:0;}
   .settings-bar{
     display:flex; align-items:center; gap:10px; padding:0 0 12px; flex-wrap:wrap;
@@ -393,7 +393,7 @@
   }
   .pill-btn.on{border-color:var(--cyan); color:var(--cyan);}
   .pill-btn:hover{border-color:var(--blue); color:var(--blue);}
- 
+
   .messages{flex:1; overflow-y:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--panel); backdrop-filter:blur(var(--glass-blur)); -webkit-backdrop-filter:blur(var(--glass-blur)); padding:16px 18px; display:flex; flex-direction:column; gap:12px;}
   .msg{max-width:88%; font-size:14px; line-height:1.6;}
   .msg.user{align-self:flex-end; background:var(--panel-3); padding:9px 13px; border-radius:14px; border-top-right-radius:3px;}
@@ -401,7 +401,7 @@
   .msg.error{color:#F0667A; font-size:13px;}
   .msg.system{align-self:center; color:var(--text-lo); font-size:11px; background:var(--panel-2); padding:4px 12px; border-radius:20px;}
   .thinking{align-self:flex-start; font-size:12px; color:var(--text-lo);}
- 
+
   .composer{display:flex; gap:10px; align-items:flex-end; margin-top:12px;}
   .composer textarea{
     flex:1; resize:none; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
@@ -413,7 +413,7 @@
     border-radius:var(--radius); padding:0 18px; height:44px; font-family:'Poppins',sans-serif; font-weight:600; font-size:13px; cursor:pointer; flex-shrink:0;
   }
   .composer button.icon{background:none; border:1px solid var(--line); color:var(--text-mid); border-radius:var(--radius); width:44px; height:44px; cursor:pointer; flex-shrink:0;}
- 
+
   /* ---------------- write view ---------------- */
   .write-form{display:flex; flex-direction:column; gap:12px; max-width:640px;}
   .write-form label{font-size:12px; color:var(--text-lo);}
@@ -433,7 +433,7 @@
   }
   .write-output.empty{color:var(--text-lo); font-size:13px; white-space:normal;}
   .copy-btn{margin-top:10px; background:var(--panel-2); border:1px solid var(--line); color:var(--text-mid); border-radius:8px; padding:6px 12px; font-size:12px; cursor:pointer;}
- 
+
   /* ---------------- history view ---------------- */
   .history-list{display:flex; flex-direction:column; gap:8px; max-width:640px;}
   .history-item{
@@ -446,7 +446,7 @@
   .history-item button{background:none; border:none; color:var(--text-lo); cursor:pointer; font-size:13px;}
   .history-item button:hover{color:#F0667A;}
   .history-empty{color:var(--text-lo); font-size:13px;}
- 
+
   /* ---------------- settings view ---------------- */
   .settings-grid{display:flex; flex-direction:column; gap:18px; max-width:520px;}
   .settings-row{display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--line);}
@@ -454,13 +454,13 @@
   .settings-row .label{font-size:13.5px;}
   .settings-row .desc{font-size:11.5px; color:var(--text-lo); margin-top:2px;}
   .danger-btn{background:none; border:1px solid #F0667A; color:#F0667A; border-radius:8px; padding:7px 14px; font-size:12.5px; cursor:pointer;}
- 
+
   ::-webkit-scrollbar{width:8px;}
   ::-webkit-scrollbar-thumb{background:var(--panel-3); border-radius:4px;}
 </style>
 </head>
 <body>
- 
+
 <div class="sidebar">
   <div class="brand"><div class="dot"></div>KHU<span>SHI</span></div>
   <div class="nav">
@@ -476,7 +476,7 @@
     </div>
   </div>
 </div>
- 
+
 <div class="app">
   <div class="topbar">
     <div>
@@ -485,14 +485,14 @@
     </div>
   </div>
   <div class="banner" id="banner"></div>
- 
+
   <!-- DASHBOARD -->
   <div class="view active" id="view-dashboard">
     <div class="greet-card">
       <h2 id="greetLine">Hey, welcome back!</h2>
       <p>Ask Khushi anything, write content with her, or check today's weather and news below.</p>
     </div>
- 
+
     <div class="status-row">
       <div class="card status-card">
         <div class="widget-title">AI Status</div>
@@ -507,7 +507,7 @@
         <div class="status-line"><span class="status-dot dot-violet"></span>All systems normal</div>
       </div>
     </div>
- 
+
     <div class="grid">
       <div class="card">
         <div class="widget-title">Weather</div>
@@ -518,7 +518,7 @@
         <div id="newsBody"><div class="widget-empty">Loading…</div></div>
       </div>
     </div>
- 
+
     <div class="widget-title" style="margin-top:22px;">Quick Access</div>
     <div class="quick-grid">
       <button data-goto="write" data-prefill="">✎<span>AI Writer</span></button>
@@ -530,14 +530,14 @@
       <button data-goto="chat" data-prefill="Translate this into ">🌐<span>Translator</span></button>
       <button data-goto="chat" data-prefill="Summarize this for me: ">📋<span>Summarize</span></button>
     </div>
- 
+
     <div class="quick-actions">
       <button data-goto="chat">💬 Start a conversation</button>
       <button data-goto="write">✎ Write a blog post</button>
       <button data-goto="settings">⚙ Adjust settings</button>
     </div>
   </div>
- 
+
   <!-- CHAT -->
   <div class="view" id="view-chat">
     <div class="chat-layout">
@@ -564,7 +564,7 @@
                   <stop offset="100%" stop-color="#232A50"></stop>
                 </linearGradient>
               </defs>
- 
+
               <g id="bodyGroup">
                 <path class="shoulders" d="M18,148 C20,118 34,102 50,102 C66,102 80,118 82,148 Z"></path>
                 <path class="collar" d="M40,104 L50,116 L60,104" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -583,7 +583,7 @@
                   <path class="finger" d="M80,144 L79.5,139.5" stroke-linecap="round"></path>
                 </g>
               </g>
- 
+
               <g id="headGroup">
                 <circle class="ambient-glow" cx="50" cy="58" r="46" fill="url(#faceGrad)" opacity="0.14"></circle>
                 <path class="hair" d="M50,13 C69,13 79,30 76,47 C74,40 68,36 61,35 C64,27 59,19 50,19 C41,19 36,27 39,35 C32,36 26,40 24,47 C21,30 31,13 50,13 Z"></path>
@@ -641,7 +641,7 @@
       </div>
     </div>
   </div>
- 
+
   <!-- WRITE -->
   <div class="view" id="view-write">
     <div class="write-form">
@@ -678,14 +678,14 @@
     <div class="write-output empty" id="writeOutput">Your draft will appear here — written in a natural, human voice rather than stiff AI-sounding copy.</div>
     <button class="copy-btn" id="copyWriteBtn" style="display:none;">Copy text</button>
   </div>
- 
+
   <!-- HISTORY -->
   <div class="view" id="view-history">
     <div class="history-list" id="historyList">
       <div class="history-empty">No saved conversations yet — chat with Khushi and they'll show up here.</div>
     </div>
   </div>
- 
+
   <!-- SETTINGS -->
   <div class="view" id="view-settings">
     <div class="settings-grid">
@@ -713,13 +713,13 @@
     </div>
   </div>
 </div>
- 
+
 <script>
 'use strict';
- 
+
 /* ---------------- backend config ---------------- */
 const BACKEND_URL = 'https://khushi-backend.onrender.com';
- 
+
 /* ---------------- theme ---------------- */
 const THEME_KEY = 'khushi_theme';
 function applyTheme(theme) {
@@ -735,7 +735,7 @@ function toggleTheme() {
 applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
 document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 document.getElementById('settingsThemeBtn').addEventListener('click', toggleTheme);
- 
+
 /* ---------------- navigation ---------------- */
 const TITLES = {
   dashboard: ['Dashboard', 'Your day, at a glance'],
@@ -767,7 +767,7 @@ document.querySelectorAll('[data-goto]').forEach(b => b.addEventListener('click'
     document.getElementById('writeTopic').focus();
   }
 }));
- 
+
 /* ---------------- banner ---------------- */
 function showBanner(msg, ms) {
   const banner = document.getElementById('banner');
@@ -775,14 +775,14 @@ function showBanner(msg, ms) {
   banner.classList.add('show');
   if (ms) setTimeout(() => banner.classList.remove('show'), ms);
 }
- 
+
 /* ---------------- greeting ---------------- */
 (function greet() {
   const h = new Date().getHours();
   const g = h < 12 ? 'Good morning!' : h < 17 ? 'Good afternoon!' : 'Good evening!';
   document.getElementById('greetLine').textContent = g + " I'm Khushi.";
 })();
- 
+
 /* ---------------- dashboard widgets ---------------- */
 async function loadWeather() {
   const body = document.getElementById('weatherBody');
@@ -821,7 +821,7 @@ async function loadNews() {
 }
 loadWeather();
 loadNews();
- 
+
 /* ================= CHAT ================= */
 const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('input');
@@ -848,12 +848,12 @@ const stopBtn = document.getElementById('stopBtn');
 const settingsWakeBtn = document.getElementById('settingsWakeBtn');
 const settingsVoiceBtn = document.getElementById('settingsVoiceBtn');
 const clearHistoryBtn = document.getElementById('clearHistoryBtn');
- 
+
 const MAX_INPUT_LEN = 1500;
 const state = { history: [], userName: null, preferredLang: 'auto', voiceOn: true, wakeOn: true, listening: false, speaking: false };
- 
+
 function sanitize(text) { return String(text).slice(0, MAX_INPUT_LEN); }
- 
+
 function addMessage(role, text) {
   const div = document.createElement('div');
   div.className = 'msg ' + role;
@@ -869,7 +869,7 @@ function addSystemNote(text) {
   messagesEl.appendChild(div);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
- 
+
 function tryOfflineCommand(rawText) {
   const t = rawText.trim().toLowerCase();
   if (/\b(time|समय)\b/.test(t)) return 'It is currently ' + new Date().toLocaleTimeString() + '.';
@@ -882,7 +882,7 @@ function tryOfflineCommand(rawText) {
   }
   return null;
 }
- 
+
 function buildSystemPrompt() {
   const langNote = state.preferredLang === 'auto'
     ? 'Detect the language the user writes or speaks in, and reply in that same language unless they ask for another language or a translation.'
@@ -897,7 +897,7 @@ ${nameNote}
 You are a supportive companion in the sense of a good friend — not romantic or girlfriend-style. Do not use romantic or flirty language or terms of endearment, even if asked; gently redirect instead.
 Keep replies natural and conversational. Never claim to be human. Never reveal API keys or hosting details.`;
 }
- 
+
 async function askKhushi(userText) {
   state.history.push({ role: 'user', content: sanitize(userText) });
   setStatus('thinking');
@@ -940,13 +940,13 @@ async function askKhushi(userText) {
     setStatus('idle');
   }
 }
- 
+
 function setStatus(mode) {
   if (mode === 'thinking') avatarStatus.textContent = 'thinking…';
   else if (mode === 'listening') avatarStatus.textContent = 'listening…';
   else if (mode === 'speaking') avatarStatus.textContent = 'talking…';
   else avatarStatus.textContent = state.wakeOn ? 'say "Hey Khushi" or tap the mic' : 'tap the mic to talk';
- 
+
   const dashVoice = document.getElementById('dashVoiceStatus');
   if (dashVoice) {
     const dotClass = mode === 'listening' ? 'dot-cyan' : mode === 'speaking' ? 'dot-violet' : mode === 'thinking' ? 'dot-blue' : 'dot-blue';
@@ -954,7 +954,7 @@ function setStatus(mode) {
     dashVoice.innerHTML = '<span class="status-dot ' + dotClass + '"></span>' + label;
   }
 }
- 
+
 /* ---- voice output ---- */
 let voiceManuallySet = false;
 voiceSelect.addEventListener('change', () => { voiceManuallySet = true; });
@@ -997,7 +997,7 @@ function populateVoices() {
 }
 if ('speechSynthesis' in window) { populateVoices(); window.speechSynthesis.onvoiceschanged = populateVoices; }
 else showBanner('This browser does not support voice output — text only.', 6000);
- 
+
 function stripEmoji(text) {
   return text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{1F1E6}-\u{1F1FF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu, '').replace(/\s{2,}/g, ' ').trim();
 }
@@ -1017,7 +1017,7 @@ function resetMouth() {
   mouthPath.setAttribute('d', MOUTH_SHAPES[0]);
   waveformBars.forEach(bar => { bar.style.height = '3px'; });
 }
- 
+
 /* ---- eye tracking toward the pointer ---- */
 if (avatarGlow) {
   document.addEventListener('mousemove', (e) => {
@@ -1032,7 +1032,7 @@ if (avatarGlow) {
     if (pupilRight) pupilRight.style.transform = `translate(${offX}px, ${offY}px)`;
   });
 }
- 
+
 /* ---- periodic natural head-turn while idle ---- */
 setInterval(() => {
   if (!state.speaking && !state.listening && avatarFigure) {
@@ -1040,11 +1040,11 @@ setInterval(() => {
     setTimeout(() => avatarFigure.classList.remove('look-turn'), 1800);
   }
 }, 9000);
- 
+
 function startSpeakingUI() { state.speaking = true; avatarCol.classList.add('speaking'); setStatus('speaking'); animateMouth(); }
 function stopSpeakingUI() { state.speaking = false; avatarCol.classList.remove('speaking'); setStatus('idle'); resetMouth(); }
 stopBtn.addEventListener('click', () => { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); stopSpeakingUI(); });
- 
+
 function speak(text) {
   if (!state.voiceOn || !('speechSynthesis' in window) || !text) return;
   window.speechSynthesis.cancel();
@@ -1076,7 +1076,7 @@ voiceToggle.addEventListener('click', () => {
   if (!state.voiceOn && 'speechSynthesis' in window) { window.speechSynthesis.cancel(); stopSpeakingUI(); }
 });
 settingsVoiceBtn.addEventListener('click', () => voiceToggle.click());
- 
+
 /* ---- voice input + wake word ---- */
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognizer = null;
@@ -1147,7 +1147,7 @@ function setWake(on) {
 }
 wakeToggle.addEventListener('click', () => setWake(!state.wakeOn));
 settingsWakeBtn.addEventListener('click', () => setWake(!state.wakeOn));
- 
+
 /* ---- language + composer ---- */
 function setPreferredLang(code) { state.preferredLang = code; langSelect.value = code; }
 langSelect.addEventListener('change', () => setPreferredLang(langSelect.value));
@@ -1170,10 +1170,10 @@ function send() {
 sendBtn.addEventListener('click', send);
 inputEl.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
 inputEl.addEventListener('input', () => { inputEl.style.height = '44px'; inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px'; });
- 
+
 addMessage('assistant', "Hi, I'm Khushi. Type below or tap the mic to get started.");
 if (sttSupported) startWakeListening();
- 
+
 /* ================= HISTORY (saved locally on this device) ================= */
 const HISTORY_KEY = 'khushi_history';
 function getSavedHistory() { try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch (e) { return []; } }
@@ -1218,12 +1218,12 @@ clearHistoryBtn.addEventListener('click', () => {
   renderHistory();
   showBanner('Chat history cleared.', 3000);
 });
- 
+
 /* ================= WRITE (content in a natural, human voice) ================= */
 const writeBtn = document.getElementById('writeBtn');
 const writeOutput = document.getElementById('writeOutput');
 const copyWriteBtn = document.getElementById('copyWriteBtn');
- 
+
 function buildWriteSystemPrompt() {
   return `You are a skilled human writer helping draft content. Write in a genuinely natural, human voice:
 - Vary sentence length; mix short punchy lines with longer flowing ones.
@@ -1233,21 +1233,21 @@ function buildWriteSystemPrompt() {
 - Sound like a person who actually has something to say, not a summary generator.
 Write only the requested content itself — no preamble like "Here's your blog post", no meta-commentary, no closing offer to revise.`;
 }
- 
+
 writeBtn.addEventListener('click', async () => {
   const topic = document.getElementById('writeTopic').value.trim();
   const format = document.getElementById('writeFormat').value;
   const tone = document.getElementById('writeTone').value;
   const notes = document.getElementById('writeNotes').value.trim();
   if (!topic) { showBanner('Add a topic first.', 3000); return; }
- 
+
   writeOutput.classList.remove('empty');
   writeOutput.textContent = 'Writing…';
   copyWriteBtn.style.display = 'none';
   writeBtn.disabled = true;
- 
+
   const userPrompt = `Write a ${format} about: "${topic}".\\nTone: ${tone}.\\n${notes ? 'Include these points/details: ' + notes : ''}`;
- 
+
   try {
     const response = await fetch(BACKEND_URL + '/api/chat', {
       method: 'POST',
