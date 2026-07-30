@@ -126,78 +126,83 @@
     position:relative;
     max-width:230px;
     width:80%;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 0 0 1px var(--line), 0 18px 40px rgba(0,0,0,0.35);
     will-change:transform;
   }
   .avatar-figure.idle{
     animation:idle-breathe 3.2s ease-in-out infinite;
   }
-  .avatar-figure.walking{
-    animation:walk-cycle 3.6s ease-in-out infinite alternate;
+  .avatar-figure.walking .orb-core{
+    animation:core-surge 1.2s ease-in-out;
   }
-  @keyframes walk-cycle{
-    0%{transform:translateX(-14px) translateY(0) rotate(-1.2deg);}
-    12.5%{transform:translateX(-10px) translateY(-6px) rotate(1.2deg);}
-    25%{transform:translateX(-7px) translateY(0) rotate(-1.2deg);}
-    37.5%{transform:translateX(-3px) translateY(-6px) rotate(1.2deg);}
-    50%{transform:translateX(0) translateY(0) rotate(-1.2deg);}
-    62.5%{transform:translateX(3px) translateY(-6px) rotate(1.2deg);}
-    75%{transform:translateX(7px) translateY(0) rotate(-1.2deg);}
-    87.5%{transform:translateX(10px) translateY(-6px) rotate(1.2deg);}
-    100%{transform:translateX(14px) translateY(0) rotate(-1.2deg);}
+  .avatar-figure.walking .ring-2, .avatar-figure.walking .ring-3{
+    animation-duration:2.2s;
   }
-  .avatar-badge{
+  @keyframes core-surge{
+    0%{transform:scale(1); filter:brightness(1);}
+    35%{transform:scale(1.28); filter:brightness(1.4);}
+    100%{transform:scale(1); filter:brightness(1);}
+  }
+  .orb{
+    position:relative;
     width:100%;
     aspect-ratio:1/1;
-    border-radius:50%;
-    background:linear-gradient(180deg, var(--panel-2), var(--panel));
     display:flex;
     align-items:center;
     justify-content:center;
   }
-  .badge-letter{
-    font-family:'Poppins', sans-serif;
-    font-weight:700;
-    font-size:72px;
-    color:var(--mint);
-  }
-  #faceSvg{width:100%; height:100%;}
-  .eye{
-    animation:face-blink 4.5s infinite;
-    transform-origin:center;
-  }
-  .eye.right{animation-delay:0.15s;}
-  @keyframes face-blink{
-    0%,92%,100%{transform:scaleY(1);}
-    95%{transform:scaleY(0.1);}
-  }
-  @keyframes idle-breathe{
-    0%,100%{transform:translateY(0) rotate(0deg);}
-    50%{transform:translateY(-5px) rotate(-0.5deg);}
-  }
-  .foot-shadow{
-    width:60%;
-    max-width:140px;
-    height:14px;
-    margin:-4px auto 0;
+  .orb-core{
+    width:34%;
+    height:34%;
     border-radius:50%;
-    background:rgba(0,0,0,0.35);
-    filter:blur(3px);
-    opacity:0.35;
+    background:radial-gradient(circle at 50% 38%, #ffffff 0%, var(--mint) 32%, rgba(95,224,200,0.18) 68%, transparent 100%);
+    box-shadow:0 0 40px 10px rgba(95,224,200,0.45), 0 0 90px 26px rgba(95,224,200,0.15);
+    animation:core-pulse 2.6s ease-in-out infinite;
+    transition:background 0.4s, box-shadow 0.4s;
   }
-  .avatar-figure.walking ~ .foot-shadow{
-    animation:shadow-pulse 3.6s ease-in-out infinite alternate;
+  @keyframes core-pulse{
+    0%,100%{transform:scale(1); opacity:0.92;}
+    50%{transform:scale(1.09); opacity:1;}
   }
-  @keyframes shadow-pulse{
-    0%,100%{opacity:0.25; transform:scaleX(0.85);}
-    50%{opacity:0.45; transform:scaleX(1);}
-  }
-  .avatar-figure img{
+  .orb-rings{
+    position:absolute;
+    inset:0;
     width:100%;
-    display:block;
-    border-radius:18px;
+    height:100%;
+  }
+  .ring{
+    fill:none;
+    stroke-width:1.4;
+    opacity:0.55;
+    transform-origin:100px 100px;
+    transition:stroke 0.4s;
+  }
+  .ring-1{stroke:var(--mint); stroke-dasharray:4 11; animation:spin-cw 16s linear infinite;}
+  .ring-2{stroke:var(--violet); stroke-dasharray:2 7; animation:spin-ccw 11s linear infinite;}
+  .ring-3{stroke:var(--coral); stroke-dasharray:9 5; animation:spin-cw 8s linear infinite;}
+  @keyframes spin-cw{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  @keyframes spin-ccw{from{transform:rotate(0deg);}to{transform:rotate(-360deg);}}
+  .particle-group{
+    transform-origin:100px 100px;
+    animation:spin-cw 22s linear infinite;
+  }
+  .particle{
+    fill:var(--mint);
+    filter:drop-shadow(0 0 4px rgba(95,224,200,0.8));
+  }
+  .avatar-pane.speaking .orb-core{animation-duration:0.6s;}
+  .avatar-pane.speaking .ring-1{animation-duration:5s;}
+  .avatar-pane.speaking .ring-2{animation-duration:4s;}
+  .avatar-pane.speaking .particle-group{animation-duration:5s;}
+  .avatar-pane.listening .orb-core{
+    background:radial-gradient(circle at 50% 38%, #ffffff 0%, var(--coral) 32%, rgba(240,102,122,0.18) 68%, transparent 100%);
+    box-shadow:0 0 40px 10px rgba(240,102,122,0.5), 0 0 90px 26px rgba(240,102,122,0.18);
+    animation-duration:1s;
+  }
+  .avatar-pane.listening .ring-1, .avatar-pane.listening .ring-3{stroke:var(--coral);}
+  .avatar-pane.listening .particle{fill:var(--coral); filter:drop-shadow(0 0 4px rgba(240,102,122,0.8));}
+  @keyframes idle-breathe{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-4px);}
   }
   .waveform{
     position:absolute;
@@ -420,7 +425,7 @@
     </select>
     <button class="pill-btn on" id="wakeToggle" aria-pressed="true">wake word: on</button>
     <button class="pill-btn on" id="voiceToggle" aria-pressed="true">voice: on</button>
-    <button class="pill-btn on" id="walkToggle" aria-pressed="true">movement: on</button>
+    <button class="pill-btn on" id="walkToggle" aria-pressed="true">pulse: on</button>
     <button class="pill-btn" id="clearBtn">clear</button>
   </div>
 </header>
@@ -432,13 +437,23 @@
     <div class="avatar-stage" id="avatarStage">
     <div class="avatar-glow"></div>
     <div class="avatar-figure" id="avatarFigure">
-      <img src="avatar.png" alt="Khushi" onerror="this.style.display='none'; document.getElementById('avatarFallback').style.display='flex';">
-      <div class="avatar-badge" id="avatarFallback" style="display:none;">
-        <span class="badge-letter">K</span>
+      <div class="orb">
+        <svg viewBox="0 0 200 200" class="orb-rings">
+          <circle class="ring ring-1" cx="100" cy="100" r="92" />
+          <circle class="ring ring-2" cx="100" cy="100" r="74" />
+          <circle class="ring ring-3" cx="100" cy="100" r="58" />
+          <g class="particle-group">
+            <circle class="particle" cx="192" cy="100" r="3"></circle>
+            <circle class="particle" cx="146" cy="180" r="3"></circle>
+            <circle class="particle" cx="54" cy="180" r="3"></circle>
+            <circle class="particle" cx="8" cy="100" r="3"></circle>
+            <circle class="particle" cx="54" cy="20" r="3"></circle>
+            <circle class="particle" cx="146" cy="20" r="3"></circle>
+          </g>
+        </svg>
+        <div class="orb-core"></div>
       </div>
-      <div class="waveform"><span></span><span></span><span></span><span></span><span></span></div>
     </div>
-    <div class="foot-shadow"></div>
     </div>
     <div class="avatar-name">Khushi</div>
     <div class="avatar-status" id="avatarStatus">say "Hey Khushi" or tap the mic</div>
@@ -859,6 +874,7 @@ function startSingleListen() {
   stopWakeListening();
   state.listening = true;
   micBtn.classList.add('listening');
+  avatarPane.classList.add('listening');
   setStatus('listening');
   const r = createRecognizer(false);
   r.onresult = (e) => {
@@ -871,10 +887,11 @@ function startSingleListen() {
   r.onend = () => {
     state.listening = false;
     micBtn.classList.remove('listening');
+    avatarPane.classList.remove('listening');
     setStatus('idle');
     if (state.wakeOn) restartWakeSoon();
   };
-  try { r.start(); } catch (err) { state.listening = false; micBtn.classList.remove('listening'); }
+  try { r.start(); } catch (err) { state.listening = false; micBtn.classList.remove('listening'); avatarPane.classList.remove('listening'); }
 }
  
 function handleVoiceCommand(said) {
@@ -982,7 +999,7 @@ function stopMovement() {
 walkToggle.addEventListener('click', () => {
   state.walkOn = !state.walkOn;
   walkToggle.classList.toggle('on', state.walkOn);
-  walkToggle.textContent = 'movement: ' + (state.walkOn ? 'on' : 'off');
+  walkToggle.textContent = 'pulse: ' + (state.walkOn ? 'on' : 'off');
   if (state.walkOn) startMovement(); else stopMovement();
 });
  
