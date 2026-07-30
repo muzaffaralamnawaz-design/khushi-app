@@ -402,6 +402,19 @@
   .msg.system{align-self:center; color:var(--text-lo); font-size:11px; background:var(--panel-2); padding:4px 12px; border-radius:20px;}
   .thinking{align-self:flex-start; font-size:12px; color:var(--text-lo);}
 
+  .attach-preview{
+    display:flex; align-items:center; gap:8px;
+    margin-top:10px; padding:6px 10px;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    width:fit-content;
+    font-size:12px;
+    color:var(--text-mid);
+  }
+  .attach-preview img{width:28px; height:28px; object-fit:cover; border-radius:6px;}
+  .attach-preview button{background:none; border:none; color:var(--text-lo); cursor:pointer; font-size:13px;}
+  .attach-preview button:hover{color:#F0667A;}
   .composer{display:flex; gap:10px; align-items:flex-end; margin-top:12px;}
   .composer textarea{
     flex:1; resize:none; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
@@ -633,7 +646,14 @@
           <button class="pill-btn" id="clearBtn">clear</button>
         </div>
         <div class="messages" id="messages"></div>
+        <div class="attach-preview" id="attachPreview" style="display:none;">
+          <img id="attachThumb" alt="attachment preview">
+          <span id="attachName"></span>
+          <button id="attachRemove" title="Remove attachment">✕</button>
+        </div>
         <div class="composer">
+          <button class="icon" id="attachBtn" title="Attach a photo">📎</button>
+          <input type="file" id="attachInput" accept="image/png,image/jpeg,image/webp,image/gif" style="display:none;">
           <button class="icon" id="micBtnSmall" title="Voice input">🎤</button>
           <textarea id="input" placeholder="Type in Hindi or English…" rows="1" maxlength="1500"></textarea>
           <button class="send" id="sendBtn">Send</button>
@@ -836,6 +856,43 @@ const pupilRight = document.getElementById('pupilRight');
 const waveformBars = document.querySelectorAll('#voiceWaveform span');
 const micBtn = document.getElementById('micBtn');
 const micBtnSmall = document.getElementById('micBtnSmall');
+const attachBtn = document.getElementById('attachBtn');
+const attachInput = document.getElementById('attachInput');
+const attachPreview = document.getElementById('attachPreview');
+const attachThumb = document.getElementById('attachThumb');
+const attachName = document.getElementById('attachName');
+const attachRemove = document.getElementById('attachRemove');
+let pendingAttachment = null; // { mimeType, base64, name }
+
+const MAX_ATTACHMENT_BYTES = 4 * 1024 * 1024; // 4MB
+
+attachBtn.addEventListener('click', () => attachInput.click());
+attachInput.addEventListener('change', () => {
+  const file = attachInput.files[0];
+  if (!file) return;
+  if (file.size > MAX_ATTACHMENT_BYTES) {
+    showBanner('That photo is too large — please use one under 4MB.', 4000);
+    attachInput.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const dataUrl = reader.result;
+    const base64 = dataUrl.split(',')[1];
+    pendingAttachment = { mimeType: file.type, base64, name: file.name };
+    attachThumb.src = dataUrl;
+    attachName.textContent = file.name;
+    attachPreview.style.display = 'flex';
+  };
+  reader.onerror = () => showBanner('Could not read that file — try a different photo.', 4000);
+  reader.readAsDataURL(file);
+});
+attachRemove.addEventListener('click', () => {
+  pendingAttachment = null;
+  attachInput.value = '';
+  attachPreview.style.display = 'none';
+});
+
 const micHint = document.getElementById('micHint');
 const langSelect = document.getElementById('langSelect');
 const wakeToggle = document.getElementById('wakeToggle');
@@ -898,8 +955,8 @@ You are a supportive companion in the sense of a good friend — not romantic or
 Keep replies natural and conversational. Never claim to be human. Never reveal API keys or hosting details.`;
 }
 
-async function askKhushi(userText) {
-  state.history.push({ role: 'user', content: sanitize(userText) });
+async function askKhushi(userText, attachment) {
+  state.history.push({ role: 'user', content: sanitize(userText) + (attachment ? ' [image attached: ' + attachment.name + ']' : '') });
   setStatus('thinking');
   avatarCol.classList.add('thinking');
   const thinkingEl = document.createElement('div');
@@ -908,10 +965,12 @@ async function askKhushi(userText) {
   messagesEl.appendChild(thinkingEl);
   messagesEl.scrollTop = messagesEl.scrollHeight;
   try {
+    const requestBody = { system: buildSystemPrompt(), messages: state.history.slice(-20) };
+    if (attachment) requestBody.attachment = { mimeType: attachment.mimeType, data: attachment.base64 };
     const response = await fetch(BACKEND_URL + '/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ system: buildSystemPrompt(), messages: state.history.slice(-20) })
+      body: JSON.stringify(requestBody)
     });
     if (!response.ok) throw new Error('backend returned ' + response.status);
     const data = await response.json();
@@ -1160,12 +1219,17 @@ function clearConversation() {
 }
 function send() {
   const text = sanitize(inputEl.value.trim());
-  if (!text) return;
+  if (!text && !pendingAttachment) return;
   const rememberName = text.match(/my name is (\\w+)/i);
   if (rememberName) state.userName = rememberName[1];
-  addMessage('user', text);
+  const displayText = text || 'What\'s in this image?';
+  addMessage('user', displayText + (pendingAttachment ? '  📎 ' + pendingAttachment.name : ''));
   inputEl.value = ''; inputEl.style.height = '44px';
-  askKhushi(text);
+  const attachmentToSend = pendingAttachment;
+  pendingAttachment = null;
+  attachInput.value = '';
+  attachPreview.style.display = 'none';
+  askKhushi(displayText, attachmentToSend);
 }
 sendBtn.addEventListener('click', send);
 inputEl.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
