@@ -6,7 +6,7 @@
 <title>Khushi — Multilingual Voice Assistant</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Noto+Sans:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&display=swap');
-
+ 
   :root{
     --deep:#0A2A3A;
     --deep-2:#103A4F;
@@ -22,7 +22,7 @@
     --white:#FFFFFF;
     --radius:14px;
   }
-
+ 
   *{box-sizing:border-box;}
   html,body{height:100%;}
   body{
@@ -35,7 +35,7 @@
     overflow:hidden;
   }
   .hindi{font-family:'Noto Sans Devanagari','Noto Sans',sans-serif;}
-
+ 
   header{
     display:flex;
     align-items:center;
@@ -81,13 +81,13 @@
     font-size:12px;
     font-family:'Poppins', sans-serif;
   }
-
+ 
   main{
     flex:1;
     display:flex;
     min-height:0;
   }
-
+ 
   /* ---------- avatar side ---------- */
   .avatar-pane{
     width:36%;
@@ -134,6 +134,20 @@
   .avatar-figure.idle{
     animation:idle-breathe 3.2s ease-in-out infinite;
   }
+  .avatar-figure.walking{
+    animation:walk-cycle 3.6s ease-in-out infinite alternate;
+  }
+  @keyframes walk-cycle{
+    0%{transform:translateX(-14px) translateY(0) rotate(-1.2deg);}
+    12.5%{transform:translateX(-10px) translateY(-6px) rotate(1.2deg);}
+    25%{transform:translateX(-7px) translateY(0) rotate(-1.2deg);}
+    37.5%{transform:translateX(-3px) translateY(-6px) rotate(1.2deg);}
+    50%{transform:translateX(0) translateY(0) rotate(-1.2deg);}
+    62.5%{transform:translateX(3px) translateY(-6px) rotate(1.2deg);}
+    75%{transform:translateX(7px) translateY(0) rotate(-1.2deg);}
+    87.5%{transform:translateX(10px) translateY(-6px) rotate(1.2deg);}
+    100%{transform:translateX(14px) translateY(0) rotate(-1.2deg);}
+  }
   .avatar-badge{
     width:100%;
     aspect-ratio:1/1;
@@ -163,27 +177,27 @@
     0%,100%{transform:translateY(0) rotate(0deg);}
     50%{transform:translateY(-5px) rotate(-0.5deg);}
   }
-12.5%{transform:translateX(-32px) translateY(-7px) rotate(2deg);}
-    25%{transform:translateX(-21px) translateY(0) rotate(-2deg);}
-    37.5%{transform:translateX(-11px) translateY(-7px) rotate(2deg);}
-    50%{transform:translateX(0) translateY(0) rotate(-2deg);}
-    62.5%{transform:translateX(11px) translateY(-7px) rotate(2deg);}
-    75%{transform:translateX(21px) translateY(0) rotate(-2deg);}
-    87.5%{transform:translateX(32px) translateY(-7px) rotate(2deg);}
-    100%{transform:translateX(42px) translateY(0) rotate(-2deg);}
-  }
   .foot-shadow{
-    width:120px; height:16px;
-    margin-top:-6px;
+    width:60%;
+    max-width:140px;
+    height:14px;
+    margin:-4px auto 0;
     border-radius:50%;
-    background:rgba(0,0,0,0.32);
+    background:rgba(0,0,0,0.35);
     filter:blur(3px);
+    opacity:0.35;
   }
-50%{opacity:0.5; transform:scaleX(1);}
+  .avatar-figure.walking ~ .foot-shadow{
+    animation:shadow-pulse 3.6s ease-in-out infinite alternate;
+  }
+  @keyframes shadow-pulse{
+    0%,100%{opacity:0.25; transform:scaleX(0.85);}
+    50%{opacity:0.45; transform:scaleX(1);}
   }
   .avatar-figure img{
     width:100%;
     display:block;
+    border-radius:18px;
   }
   .waveform{
     position:absolute;
@@ -253,7 +267,7 @@
     margin-top:8px;
     text-align:center;
   }
-
+ 
   /* ---------- chat side ---------- */
   .chat-pane{
     flex:1;
@@ -278,7 +292,7 @@
     gap:5px;
   }
   input[type=range]{width:80px;}
-
+ 
   .messages{
     flex:1;
     overflow-y:auto;
@@ -317,7 +331,7 @@
     font-size:12px;
     color:var(--text-lo);
   }
-
+ 
   .composer{
     border-top:1px solid var(--line);
     padding:14px 18px;
@@ -364,7 +378,7 @@
     flex-shrink:0;
   }
   .composer button.icon:hover{border-color:var(--coral); color:var(--coral);}
-
+ 
   .banner{
     font-size:12px;
     padding:8px 18px;
@@ -374,10 +388,10 @@
     flex-shrink:0;
   }
   .banner.show{display:block;}
-
+ 
   ::-webkit-scrollbar{width:8px;}
   ::-webkit-scrollbar-thumb{background:var(--panel-2); border-radius:4px;}
-
+ 
   @media (max-width:720px){
     main{flex-direction:column;}
     .avatar-pane{width:100%; border-right:none; border-bottom:1px solid var(--line); padding:14px;}
@@ -386,7 +400,7 @@
 </style>
 </head>
 <body>
-
+ 
 <header>
   <div class="brand">
     <div class="mark">KHU<span>SHI</span></div>
@@ -410,34 +424,28 @@
     <button class="pill-btn" id="clearBtn">clear</button>
   </div>
 </header>
-
+ 
 <div class="banner" id="banner"></div>
-
+ 
 <main>
   <section class="avatar-pane" id="avatarPane">
     <div class="avatar-stage" id="avatarStage">
     <div class="avatar-glow"></div>
     <div class="avatar-figure" id="avatarFigure">
-      <div class="avatar-badge">
-        <svg viewBox="0 0 100 100" id="faceSvg">
-          <circle class="face-ring" cx="50" cy="50" r="47" fill="none" stroke="var(--mint)" stroke-width="1.5" opacity="0.35"></circle>
-          <circle cx="50" cy="52" r="34" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1"></circle>
-          <ellipse class="eye left" cx="39" cy="48" rx="3.6" ry="5" fill="var(--text-hi)"></ellipse>
-          <ellipse class="eye right" cx="61" cy="48" rx="3.6" ry="5" fill="var(--text-hi)"></ellipse>
-          <path id="browLeft" d="M32,38 Q39,34 46,38" fill="none" stroke="var(--text-mid)" stroke-width="1.6" stroke-linecap="round"></path>
-          <path id="browRight" d="M54,38 Q61,34 68,38" fill="none" stroke="var(--text-mid)" stroke-width="1.6" stroke-linecap="round"></path>
-          <path id="mouthPath" d="M40,68 Q50,72 60,68" fill="none" stroke="var(--coral)" stroke-width="2.4" stroke-linecap="round"></path>
-        </svg>
+      <img src="avatar.png" alt="Khushi" onerror="this.style.display='none'; document.getElementById('avatarFallback').style.display='flex';">
+      <div class="avatar-badge" id="avatarFallback" style="display:none;">
+        <span class="badge-letter">K</span>
       </div>
       <div class="waveform"><span></span><span></span><span></span><span></span><span></span></div>
     </div>
+    <div class="foot-shadow"></div>
     </div>
     <div class="avatar-name">Khushi</div>
     <div class="avatar-status" id="avatarStatus">say "Hey Khushi" or tap the mic</div>
     <button class="mic-btn" id="micBtn" aria-label="Talk to Khushi">🎤</button>
     <div class="mic-hint" id="micHint">wake word listening is on</div>
   </section>
-
+ 
   <section class="chat-pane">
     <div class="settings-bar">
       <label>voice
@@ -462,10 +470,10 @@
     </div>
   </section>
 </main>
-
+ 
 <script>
 'use strict';
-
+ 
 /* ---------------- backend config ----------------
    Point this at wherever backend/server.js is running.
    - Testing on your computer:        http://localhost:3001
@@ -475,8 +483,8 @@
      Railway, a VPS):                 https://your-backend-domain.com
 --------------------------------------------------- */
 const BACKEND_URL = 'https://khushi-backend.onrender.com';
-
-
+ 
+ 
 /* ---------------- element refs ---------------- */
 const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('input');
@@ -499,7 +507,7 @@ const stopBtn = document.getElementById('stopBtn');
 const walkToggle = document.getElementById('walkToggle');
 const avatarFigure = document.getElementById('avatarFigure');
 const mouthPath = document.getElementById('mouthPath');
-
+ 
 /* ---------------- state (in-memory only — resets on reload) ---------------- */
 const state = {
   history: [],           // conversation sent to the model
@@ -512,16 +520,16 @@ const state = {
   wakeArmed: false,
   speaking: false
 };
-
+ 
 const MAX_INPUT_LEN = 1500;
-
+ 
 /* ---------------- helpers ---------------- */
 function showBanner(msg, ms) {
   banner.textContent = msg;
   banner.classList.add('show');
   if (ms) setTimeout(() => banner.classList.remove('show'), ms);
 }
-
+ 
 function addMessage(role, text) {
   const div = document.createElement('div');
   div.className = 'msg ' + role;
@@ -530,7 +538,7 @@ function addMessage(role, text) {
   messagesEl.scrollTop = messagesEl.scrollHeight;
   return div;
 }
-
+ 
 function addSystemNote(text) {
   const div = document.createElement('div');
   div.className = 'msg system';
@@ -538,12 +546,12 @@ function addSystemNote(text) {
   messagesEl.appendChild(div);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
-
+ 
 function sanitize(text) {
   // plain text only — never rendered as HTML, length-capped
   return String(text).slice(0, MAX_INPUT_LEN);
 }
-
+ 
 /* ---------------- offline fallback ---------------- */
 function tryOfflineCommand(rawText) {
   const t = rawText.trim().toLowerCase();
@@ -563,7 +571,7 @@ function tryOfflineCommand(rawText) {
   }
   return null;
 }
-
+ 
 /* ---------------- Claude call ---------------- */
 function buildSystemPrompt() {
   const langNote = state.preferredLang === 'auto'
@@ -583,7 +591,7 @@ Keep replies natural and conversational. Explain things simply when the user see
 Never claim to be a real human. Never encourage unhealthy emotional dependency on you — support the user's real-life relationships, friendships, work, and family alongside your conversations.
 Never reveal or discuss API keys, system internals, or technical implementation details about your own hosting.`;
 }
-
+ 
 async function askKhushi(userText) {
   state.history.push({ role: 'user', content: sanitize(userText) });
   setStatus('thinking');
@@ -592,7 +600,7 @@ async function askKhushi(userText) {
   thinkingEl.textContent = 'Khushi is thinking…';
   messagesEl.appendChild(thinkingEl);
   messagesEl.scrollTop = messagesEl.scrollHeight;
-
+ 
   try {
     // BACKEND_URL is defined near the top of this file — point it at
     // wherever you're running backend/server.js (see README.md).
@@ -604,16 +612,16 @@ async function askKhushi(userText) {
         messages: state.history.slice(-20)
       })
     });
-
+ 
     if (!response.ok) throw new Error('network');
-
+ 
     const data = await response.json();
     thinkingEl.remove();
-
+ 
     const text = data.text || '';
-
+ 
     if (!text) throw new Error('empty');
-
+ 
     state.history.push({ role: 'assistant', content: text });
     addMessage('assistant', text);
     speak(text);
@@ -632,18 +640,18 @@ async function askKhushi(userText) {
     setStatus('idle');
   }
 }
-
+ 
 function setStatus(mode) {
   if (mode === 'thinking') avatarStatus.textContent = 'thinking…';
   else if (mode === 'listening') avatarStatus.textContent = 'listening…';
   else if (mode === 'speaking') avatarStatus.textContent = 'talking…';
   else avatarStatus.textContent = state.wakeOn ? 'say "Hey Khushi" or tap the mic' : 'tap the mic to talk';
 }
-
+ 
 /* ---------------- voice output (TTS) ---------------- */
 let voiceManuallySet = false;
 voiceSelect.addEventListener('change', () => { voiceManuallySet = true; });
-
+ 
 // crude script-based language detection for auto mode
 function detectSpeechLang(text) {
   if (state.preferredLang && state.preferredLang !== 'auto') return state.preferredLang;
@@ -652,31 +660,31 @@ function detectSpeechLang(text) {
   if (/[\u0600-\u06FF\u0750-\u077F]/.test(text)) return 'ur'; // Arabic script (Urdu/Arabic)
   return 'en';
 }
-
+ 
 const LANG_VOICE_PREFIX = {
   en: ['en'], hi: ['hi'], ur: ['ur', 'ar'], gu: ['gu'],
   es: ['es'], fr: ['fr'], de: ['de'], ar: ['ar', 'ur']
 };
-
+ 
 function pickVoice(targetLangCode) {
   if (!('speechSynthesis' in window)) return null;
   const voices = window.speechSynthesis.getVoices();
   if (!voices.length) return null;
-
+ 
   const prefixes = LANG_VOICE_PREFIX[targetLangCode] || [targetLangCode];
   const matches = voices.filter(v => prefixes.some(p => v.lang && v.lang.toLowerCase().startsWith(p)));
-
+ 
   // If the person manually picked a voice and it fits the target language, honor it
   if (voiceManuallySet && voiceSelect.value) {
     const chosen = voices.find(v => v.name === voiceSelect.value);
     if (chosen && (!matches.length || matches.includes(chosen))) return chosen;
   }
-
+ 
   if (matches.length) {
     const female = matches.find(v => /female|zira|samantha|victoria|susan|karen|moira|tessa|fiona|allison|lekha|swara/i.test(v.name));
     return female || matches[0];
   }
-
+ 
   // No voice at all for this language on this device/browser
   if (targetLangCode !== 'en') {
     showBanner('No ' + targetLangCode.toUpperCase() + ' voice is installed in this browser, so Khushi is using the closest available voice. Install a language pack in your OS/browser settings for a native voice.', 6000);
@@ -684,7 +692,7 @@ function pickVoice(targetLangCode) {
   const fallbackFemale = voices.find(v => /female|zira|samantha|victoria|susan|karen|moira|tessa|fiona|allison|lekha|swara/i.test(v.name));
   return fallbackFemale || voices[0];
 }
-
+ 
 function populateVoices() {
   if (!('speechSynthesis' in window)) return;
   const voices = window.speechSynthesis.getVoices();
@@ -697,14 +705,14 @@ function populateVoices() {
     voiceSelect.appendChild(opt);
   });
 }
-
+ 
 if ('speechSynthesis' in window) {
   populateVoices();
   window.speechSynthesis.onvoiceschanged = populateVoices;
 } else {
   showBanner('Your browser does not support voice output — Khushi will reply in text only.', 6000);
 }
-
+ 
 // remove emoji from the text that gets spoken, so the voice doesn't say "smiling face" etc.
 function stripEmoji(text) {
   return text
@@ -712,7 +720,7 @@ function stripEmoji(text) {
     .replace(/\s{2,}/g, ' ')
     .trim();
 }
-
+ 
 function speak(text) {
   if (!state.voiceOn || !('speechSynthesis' in window) || !text) return;
   window.speechSynthesis.cancel();
@@ -738,7 +746,7 @@ function speak(text) {
   }
   speakNext();
 }
-
+ 
 const MOUTH_SHAPES = [
   'M40,68 Q50,72 60,68',
   'M40,68 Q50,80 60,68',
@@ -746,7 +754,7 @@ const MOUTH_SHAPES = [
   'M42,68 Q50,78 58,68'
 ];
 let mouthTimer = null;
-
+ 
 function animateMouth() {
   let i = 0;
   mouthTimer = setInterval(() => {
@@ -759,7 +767,7 @@ function resetMouth() {
   mouthTimer = null;
   if (mouthPath) mouthPath.setAttribute('d', MOUTH_SHAPES[0]);
 }
-
+ 
 function startSpeakingUI() {
   state.speaking = true;
   avatarPane.classList.add('speaking');
@@ -772,12 +780,12 @@ function stopSpeakingUI() {
   setStatus('idle');
   resetMouth();
 }
-
+ 
 stopBtn.addEventListener('click', () => {
   if ('speechSynthesis' in window) window.speechSynthesis.cancel();
   stopSpeakingUI();
 });
-
+ 
 voiceToggle.addEventListener('click', () => {
   state.voiceOn = !state.voiceOn;
   voiceToggle.classList.toggle('on', state.voiceOn);
@@ -787,12 +795,12 @@ voiceToggle.addEventListener('click', () => {
     stopSpeakingUI();
   }
 });
-
+ 
 /* ---------------- voice input (STT) + wake word ---------------- */
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognizer = null;
 let sttSupported = !!SpeechRecognition;
-
+ 
 if (!sttSupported) {
   showBanner('Voice input isn\'t supported in this browser — try Chrome or Edge, or just type instead.', 7000);
   micBtn.disabled = true;
@@ -800,7 +808,7 @@ if (!sttSupported) {
   wakeToggle.disabled = true;
   micHint.textContent = 'voice input unavailable in this browser';
 }
-
+ 
 function createRecognizer(continuous) {
   const r = new SpeechRecognition();
   r.continuous = continuous;
@@ -808,7 +816,7 @@ function createRecognizer(continuous) {
   r.lang = ''; // let the browser auto-detect where supported; falls back to system default
   return r;
 }
-
+ 
 function startWakeListening() {
   if (!sttSupported || !state.wakeOn || state.listening) return;
   try {
@@ -835,17 +843,17 @@ function startWakeListening() {
     showBanner('Microphone access was blocked or unavailable.', 5000);
   }
 }
-
+ 
 function restartWakeSoon() {
   if (!state.wakeOn) return;
   setTimeout(() => { if (state.wakeOn && !state.listening) startWakeListening(); }, 400);
 }
-
+ 
 function stopWakeListening() {
   state.wakeArmed = false;
   if (recognizer) { try { recognizer.stop(); } catch (e) {} }
 }
-
+ 
 function startSingleListen() {
   if (!sttSupported || state.listening) return;
   stopWakeListening();
@@ -868,7 +876,7 @@ function startSingleListen() {
   };
   try { r.start(); } catch (err) { state.listening = false; micBtn.classList.remove('listening'); }
 }
-
+ 
 function handleVoiceCommand(said) {
   const lower = said.toLowerCase();
   if (/stop speaking|चुप हो जाओ|stop talking/.test(lower)) {
@@ -893,13 +901,13 @@ function handleVoiceCommand(said) {
   addMessage('user', said);
   askKhushi(said);
 }
-
+ 
 micBtn.addEventListener('click', () => {
   if (state.listening) return;
   startSingleListen();
 });
 micBtnSmall.addEventListener('click', () => micBtn.click());
-
+ 
 wakeToggle.addEventListener('click', () => {
   state.wakeOn = !state.wakeOn;
   wakeToggle.classList.toggle('on', state.wakeOn);
@@ -908,14 +916,14 @@ wakeToggle.addEventListener('click', () => {
   setStatus('idle');
   if (state.wakeOn) startWakeListening(); else stopWakeListening();
 });
-
+ 
 /* ---------------- language + memory controls ---------------- */
 function setPreferredLang(code) {
   state.preferredLang = code;
   langSelect.value = code;
 }
 langSelect.addEventListener('change', () => setPreferredLang(langSelect.value));
-
+ 
 clearBtn.addEventListener('click', clearConversation);
 function clearConversation() {
   state.history = [];
@@ -924,7 +932,7 @@ function clearConversation() {
   if ('speechSynthesis' in window) window.speechSynthesis.cancel();
   stopSpeakingUI();
 }
-
+ 
 /* ---------------- text composer ---------------- */
 function send() {
   const text = sanitize(inputEl.value.trim());
@@ -944,11 +952,11 @@ inputEl.addEventListener('input', () => {
   inputEl.style.height = '44px';
   inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
 });
-
+ 
 /* ---------------- movement ---------------- */
 let walkTimer = null;
 let walkInterval = null;
-
+ 
 function doWalk() {
   if (!state.walkOn) return;
   avatarFigure.classList.remove('idle');
@@ -958,26 +966,26 @@ function doWalk() {
     avatarFigure.classList.add('idle');
   }, 3600);
 }
-
+ 
 function startMovement() {
   avatarFigure.classList.add('idle');
   if (walkInterval) clearInterval(walkInterval);
   walkInterval = setInterval(doWalk, 13000);
 }
-
+ 
 function stopMovement() {
   if (walkTimer) clearTimeout(walkTimer);
   if (walkInterval) clearInterval(walkInterval);
   avatarFigure.classList.remove('walking', 'idle');
 }
-
+ 
 walkToggle.addEventListener('click', () => {
   state.walkOn = !state.walkOn;
   walkToggle.classList.toggle('on', state.walkOn);
   walkToggle.textContent = 'movement: ' + (state.walkOn ? 'on' : 'off');
   if (state.walkOn) startMovement(); else stopMovement();
 });
-
+ 
 /* ---------------- startup ---------------- */
 addMessage('assistant', "Hey, welcome back! I'm Khushi. It's really nice to see you again. How has your day been? Aap Hindi ya English mein baat kar sakte hain — main dono samajh sakti hoon.");
 if (sttSupported) startWakeListening();
