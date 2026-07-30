@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Khushi</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600;700&family=Noto+Sans:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600;700&family=Noto+Sans:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
   :root{
     --deep:#080B1A;
@@ -462,6 +462,70 @@
 
   /* ---------------- settings view ---------------- */
   .settings-grid{display:flex; flex-direction:column; gap:18px; max-width:520px;}
+
+  .evolution-card{max-width:none;}
+  .evo-status{
+    display:flex; align-items:center; gap:8px;
+    font-size:13.5px; color:var(--text-mid);
+    margin-bottom:14px;
+  }
+  .evo-status span#evoStatusText{color:var(--cyan); font-weight:600;}
+  .evo-dot{
+    width:9px; height:9px; border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 8px 2px rgba(79,224,240,0.7);
+    animation:evo-pulse 1.8s ease-in-out infinite;
+    flex-shrink:0;
+  }
+  .evo-dot.busy{background:var(--violet); box-shadow:0 0 8px 2px rgba(176,132,240,0.7);}
+  @keyframes evo-pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+  .evo-input-row{display:flex; gap:8px; margin-bottom:12px;}
+  .evo-input-row input{
+    flex:1;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:10px 12px;
+    color:var(--text-hi);
+    font-family:'IBM Plex Mono','Noto Sans',monospace;
+    font-size:13px;
+  }
+  .evo-input-row input:focus{outline:none; border-color:var(--cyan);}
+  .evo-input-row button{
+    background:linear-gradient(135deg, var(--cyan), var(--violet));
+    border:none; color:#0A0E20; font-weight:700;
+    border-radius:10px; padding:0 18px; cursor:pointer;
+    font-family:'Space Grotesk',sans-serif; font-size:13px;
+  }
+  .evo-input-row button:disabled{opacity:0.5; cursor:not-allowed;}
+  .evo-terminal{
+    background:#060912;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px 16px;
+    height:200px;
+    overflow-y:auto;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    line-height:1.7;
+  }
+  .evo-line{color:#9FE8DE;}
+  .evo-line.evo-dim{color:var(--text-lo);}
+  .evo-line.evo-ok{color:#7CF0A8;}
+  .evo-line.evo-cmd{color:var(--cyan);}
+  .evo-bar-track{
+    display:inline-block; width:180px; height:8px;
+    background:rgba(255,255,255,0.08);
+    border-radius:4px; overflow:hidden;
+    vertical-align:middle; margin-right:8px;
+  }
+  .evo-bar-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--cyan), var(--violet));
+    width:0%;
+    transition:width 0.25s ease;
+  }
+
   .settings-row{display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--line);}
   .settings-row:last-child{border-bottom:none;}
   .settings-row .label{font-size:13.5px;}
@@ -729,6 +793,19 @@
           <div><div class="label">Clear chat history</div><div class="desc">Removes all saved conversations from this device</div></div>
           <button class="danger-btn" id="clearHistoryBtn">Clear</button>
         </div>
+      </div>
+
+      <div class="card evolution-card">
+        <div class="widget-title">Self-Update &amp; Evolution Module</div>
+        <div class="evo-status">
+          <span class="evo-dot" id="evoDot"></span>
+          Core Status: <span id="evoStatusText">Stable / Ready for Evolution</span>
+        </div>
+        <div class="evo-input-row">
+          <input type="text" id="evoInput" placeholder="Enter update command to evolve system…" maxlength="120">
+          <button id="evoRunBtn">Execute</button>
+        </div>
+        <div class="evo-terminal" id="evoTerminal"><div class="evo-line evo-dim">// awaiting command…</div></div>
       </div>
     </div>
   </div>
@@ -1282,6 +1359,92 @@ clearHistoryBtn.addEventListener('click', () => {
   renderHistory();
   showBanner('Chat history cleared.', 3000);
 });
+
+/* ================= SELF-UPDATE & EVOLUTION MODULE =================
+   This is a purely cosmetic, simulated sequence for visual flair —
+   it does not modify any real code, files, or system behavior. */
+const evoInput = document.getElementById('evoInput');
+const evoRunBtn = document.getElementById('evoRunBtn');
+const evoTerminal = document.getElementById('evoTerminal');
+const evoDot = document.getElementById('evoDot');
+const evoStatusText = document.getElementById('evoStatusText');
+
+const EVO_MODULES = ['perception-core', 'language-matrix', 'response-engine', 'memory-lattice', 'voice-synth', 'context-weave'];
+
+function evoLog(html, cls) {
+  const line = document.createElement('div');
+  line.className = 'evo-line' + (cls ? ' ' + cls : '');
+  line.innerHTML = html;
+  evoTerminal.appendChild(line);
+  evoTerminal.scrollTop = evoTerminal.scrollHeight;
+  return line;
+}
+
+function evoProgressLine(label) {
+  const line = evoLog('<span class="evo-bar-track"><span class="evo-bar-fill"></span></span><span class="evo-pct">0%</span> ' + label);
+  return line;
+}
+
+function runEvolutionSequence(command) {
+  evoRunBtn.disabled = true;
+  evoInput.disabled = true;
+  evoDot.classList.add('busy');
+  evoStatusText.textContent = 'Evolving…';
+
+  evoLog('&gt; ' + command, 'evo-cmd');
+  evoLog('Parsing update directive…', 'evo-dim');
+
+  setTimeout(() => {
+    const modules = EVO_MODULES.slice(0, 2 + Math.floor(Math.random() * 3));
+    let moduleIndex = 0;
+
+    function runModule() {
+      if (moduleIndex >= modules.length) {
+        evoLog('Recompiling core pathways…', 'evo-dim');
+        setTimeout(() => {
+          evoLog('✅ Evolution complete. All patches applied successfully.', 'evo-ok');
+          evoLog('Core stability: 100%', 'evo-ok');
+          evoDot.classList.remove('busy');
+          evoStatusText.textContent = 'Stable / Ready for Evolution';
+          evoRunBtn.disabled = false;
+          evoInput.disabled = false;
+          evoInput.value = '';
+        }, 500);
+        return;
+      }
+      const modName = modules[moduleIndex];
+      const line = evoProgressLine('patching ' + modName + '…');
+      const fill = line.querySelector('.evo-bar-fill');
+      const pct = line.querySelector('.evo-pct');
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 8 + Math.random() * 14;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          fill.style.width = '100%';
+          pct.textContent = '100%';
+          line.innerHTML = '✔ patch applied: ' + modName;
+          line.className = 'evo-line evo-ok';
+          moduleIndex++;
+          setTimeout(runModule, 180);
+        } else {
+          fill.style.width = progress.toFixed(0) + '%';
+          pct.textContent = progress.toFixed(0) + '%';
+        }
+      }, 90);
+    }
+    runModule();
+  }, 500);
+}
+
+function triggerEvolution() {
+  const command = evoInput.value.trim();
+  if (!command) { evoInput.focus(); return; }
+  runEvolutionSequence(command);
+}
+evoRunBtn.addEventListener('click', triggerEvolution);
+evoInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') triggerEvolution(); });
 
 /* ================= WRITE (content in a natural, human voice) ================= */
 const writeBtn = document.getElementById('writeBtn');
