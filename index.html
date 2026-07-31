@@ -1411,11 +1411,15 @@ function startSingleListen() {
   try { r.start(); } catch (err) { state.listening = false; micBtn.classList.remove('listening'); avatarCol.classList.remove('listening'); }
 }
 /* ---- image generation (free, no-key API — genuinely generates an image) ---- */
-const IMAGE_INTENT_RE = /^(create|generate|draw|make|design)\s+(me\s+)?(an?\s+)?(image|photo|picture|drawing|pic|painting)\s*(of|for|showing)?\s*(.+)$/i;
+const IMAGE_INTENT_RE_LEAD = /^(create|generate|draw|make|design|paint)\s+(me\s+)?(an?\s+)?(image|photo|picture|drawing|pic|painting|poster|wallpaper)\s*(of|for|showing)?\s*(.+)$/i;
+const IMAGE_INTENT_RE_TRAIL = /^(create|generate|draw|make|design|paint)\s+(me\s+)?(an?\s+)?(.+?)\s+(image|photo|picture|drawing|pic|painting|poster|wallpaper)$/i;
 
 function detectImagePrompt(text) {
-  const m = text.match(IMAGE_INTENT_RE);
-  return m ? m[6].trim() : null;
+  const lead = text.match(IMAGE_INTENT_RE_LEAD);
+  if (lead) return lead[6].trim();
+  const trail = text.match(IMAGE_INTENT_RE_TRAIL);
+  if (trail) return trail[4].trim();
+  return null;
 }
 
 function generateImage(prompt) {
