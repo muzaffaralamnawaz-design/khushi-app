@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Khushi</title>
+<title>Unnati AI</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600;700&family=Noto+Sans:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
@@ -626,7 +626,7 @@
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="sidebar" id="sidebar">
-  <div class="brand"><div class="dot"></div>KHU<span>SHI</span></div>
+  <div class="brand"><div class="dot"></div>UNN<span>ATI</span></div>
   <div class="nav">
     <button class="nav-btn active" data-view="dashboard"><span class="ic">◆</span> Dashboard</button>
     <button class="nav-btn" data-view="chat"><span class="ic">💬</span> Chat</button>
@@ -662,7 +662,7 @@
   <div class="view active" id="view-dashboard">
     <div class="greet-card">
       <h2 id="greetLine">Hey, welcome back!</h2>
-      <p>Ask Khushi anything, write content with her, or check today's weather and news below.</p>
+      <p>Ask Unnati anything, write content with her, or check today's weather and news below.</p>
     </div>
 
     <div class="status-row">
@@ -677,17 +677,6 @@
       <div class="card status-card">
         <div class="widget-title">System Status</div>
         <div class="status-line"><span class="status-dot dot-violet"></span>All systems normal</div>
-      </div>
-    </div>
-
-    <div class="grid">
-      <div class="card">
-        <div class="widget-title">Weather</div>
-        <div id="weatherBody"><div class="widget-empty">Loading…</div></div>
-      </div>
-      <div class="card">
-        <div class="widget-title">Top headlines</div>
-        <div id="newsBody"><div class="widget-empty">Loading…</div></div>
       </div>
     </div>
 
@@ -778,9 +767,9 @@
             <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
           </div>
         </div>
-        <div class="avatar-name">Khushi</div>
-        <div class="avatar-status" id="avatarStatus">say "Hey Khushi" or tap the mic</div>
-        <button class="mic-btn" id="micBtn" aria-label="Talk to Khushi">🎤</button>
+        <div class="avatar-name">Unnati</div>
+        <div class="avatar-status" id="avatarStatus">say "Hey Unnati" or tap the mic</div>
+        <button class="mic-btn" id="micBtn" aria-label="Talk to Unnati">🎤</button>
         <div class="mic-hint" id="micHint">wake word listening is on</div>
       </div>
       <div class="chat-col">
@@ -861,7 +850,7 @@
   <!-- HISTORY -->
   <div class="view" id="view-history">
     <div class="history-list" id="historyList">
-      <div class="history-empty">No saved conversations yet — chat with Khushi and they'll show up here.</div>
+      <div class="history-empty">No saved conversations yet — chat with Unnati and they'll show up here.</div>
     </div>
   </div>
 
@@ -870,15 +859,22 @@
     <div class="settings-grid">
       <div class="card">
         <div class="settings-row">
+          <div><div class="label">Your name</div><div class="desc">What Unnati calls you and remembers between visits</div></div>
+          <div style="display:flex; gap:6px;">
+            <input type="text" id="userNameInput" maxlength="30" style="width:110px; background:var(--panel-2); border:1px solid var(--line); border-radius:8px; padding:6px 8px; color:var(--text-hi); font-size:13px;">
+            <button class="pill-btn" id="saveNameBtn">Save</button>
+          </div>
+        </div>
+        <div class="settings-row">
           <div><div class="label">Theme</div><div class="desc">Switch between dark and light mode</div></div>
           <button class="pill-btn" id="settingsThemeBtn">Toggle</button>
         </div>
         <div class="settings-row">
-          <div><div class="label">Wake word</div><div class="desc">Listen for "Hey Khushi" in the background</div></div>
+          <div><div class="label">Wake word</div><div class="desc">Listen for "Hey Unnati" in the background</div></div>
           <button class="pill-btn on" id="settingsWakeBtn" aria-pressed="true">On</button>
         </div>
         <div class="settings-row">
-          <div><div class="label">Voice replies</div><div class="desc">Speak Khushi's responses aloud</div></div>
+          <div><div class="label">Voice replies</div><div class="desc">Speak Unnati's responses aloud</div></div>
           <button class="pill-btn on" id="settingsVoiceBtn" aria-pressed="true">On</button>
         </div>
         <div class="settings-row">
@@ -888,6 +884,23 @@
           <div><div class="label">Clear chat history</div><div class="desc">Removes all saved conversations from this device</div></div>
           <button class="danger-btn" id="clearHistoryBtn">Clear</button>
         </div>
+      </div>
+
+      <div class="card gmail-card">
+        <div class="widget-title">Gmail Integration</div>
+        <div class="evo-status">
+          <span class="evo-dot dot-blue" id="gmailDot"></span>
+          <span id="gmailStatusText">Not connected</span>
+        </div>
+        <div class="gmail-setup" id="gmailSetup">
+          <label class="gmail-label">Google OAuth Client ID <span class="desc">(from your own Google Cloud project — see the guide)</span></label>
+          <div class="evo-input-row">
+            <input type="text" id="gmailClientId" placeholder="xxxxxxxx.apps.googleusercontent.com">
+            <button id="gmailConnectBtn">Connect Gmail</button>
+          </div>
+        </div>
+        <button class="danger-btn" id="gmailDisconnectBtn" style="display:none; margin-top:10px;">Disconnect Gmail</button>
+        <div class="desc" style="margin-top:10px;">Once connected, try saying "check my email" or "draft an email to someone@example.com about rescheduling our meeting."</div>
       </div>
 
       <div class="card evolution-card">
@@ -932,8 +945,8 @@ document.getElementById('settingsThemeBtn').addEventListener('click', toggleThem
 const VIEW_ORDER = ['dashboard', 'chat', 'write', 'history', 'settings'];
 const TITLES = {
   dashboard: ['Dashboard', 'Your day, at a glance'],
-  chat: ['Chat with Khushi', 'Talk by text or voice'],
-  write: ['Write with Khushi', 'Blog posts and content in a natural voice'],
+  chat: ['Chat with Unnati', 'Talk by text or voice'],
+  write: ['Write with Unnati', 'Blog posts and content in a natural voice'],
   history: ['History', 'Your past conversations, saved on this device'],
   settings: ['Settings', 'Voice, language, and app preferences'],
 };
@@ -1004,47 +1017,8 @@ function showBanner(msg, ms) {
 (function greet() {
   const h = new Date().getHours();
   const g = h < 12 ? 'Good morning!' : h < 17 ? 'Good afternoon!' : 'Good evening!';
-  document.getElementById('greetLine').textContent = g + " I'm Khushi.";
+  document.getElementById('greetLine').textContent = g + " I'm Unnati.";
 })();
-
-/* ---------------- dashboard widgets ---------------- */
-async function loadWeather() {
-  const body = document.getElementById('weatherBody');
-  try {
-    const city = localStorage.getItem('khushi_city') || 'Delhi';
-    const r = await fetch(BACKEND_URL + '/api/weather?city=' + encodeURIComponent(city));
-    const d = await r.json();
-    if (!r.ok) { body.innerHTML = '<div class="widget-empty">' + (d.error || 'Weather unavailable.') + '</div>'; return; }
-    body.innerHTML = `
-      <div class="weather-row">
-        <div class="weather-temp">${Math.round(d.tempC)}°C</div>
-        <div>
-          <div>${d.city}</div>
-          <div class="weather-desc">${d.description || ''}</div>
-        </div>
-      </div>`;
-  } catch (e) {
-    body.innerHTML = '<div class="widget-empty">Could not reach the backend for weather.</div>';
-  }
-}
-async function loadNews() {
-  const body = document.getElementById('newsBody');
-  try {
-    const r = await fetch(BACKEND_URL + '/api/news');
-    const d = await r.json();
-    if (!r.ok) { body.innerHTML = '<div class="widget-empty">' + (d.error || 'News unavailable.') + '</div>'; return; }
-    if (!d.articles || !d.articles.length) { body.innerHTML = '<div class="widget-empty">No headlines right now.</div>'; return; }
-    body.innerHTML = d.articles.map(a => `
-      <div class="news-item">
-        <a href="${a.url}" target="_blank" rel="noopener">${a.title}</a>
-        <div class="src">${a.source || ''}</div>
-      </div>`).join('');
-  } catch (e) {
-    body.innerHTML = '<div class="widget-empty">Could not reach the backend for news.</div>';
-  }
-}
-loadWeather();
-loadNews();
 
 /* ================= CHAT ================= */
 const messagesEl = document.getElementById('messages');
@@ -1111,7 +1085,18 @@ const settingsVoiceBtn = document.getElementById('settingsVoiceBtn');
 const clearHistoryBtn = document.getElementById('clearHistoryBtn');
 
 const MAX_INPUT_LEN = 1500;
-const state = { history: [], userName: null, preferredLang: 'auto', voiceOn: true, wakeOn: true, listening: false, speaking: false };
+const NAME_KEY = 'unnati_username';
+function getSavedName() {
+  const saved = localStorage.getItem(NAME_KEY);
+  if (saved) return saved;
+  localStorage.setItem(NAME_KEY, 'Mujju');
+  return 'Mujju';
+}
+function setSavedName(name) {
+  localStorage.setItem(NAME_KEY, name);
+  state.userName = name;
+}
+const state = { history: [], userName: getSavedName(), preferredLang: 'auto', voiceOn: true, wakeOn: true, listening: false, speaking: false };
 
 function sanitize(text) { return String(text).slice(0, MAX_INPUT_LEN); }
 
@@ -1175,7 +1160,7 @@ function buildSystemPrompt() {
     ? 'Detect the language the user writes or speaks in, and reply in that same language unless they ask for another language or a translation.'
     : 'The user prefers replies in "' + state.preferredLang + '". Reply in that language unless they ask otherwise.';
   const nameNote = state.userName ? ('The user\'s name is ' + state.userName + '. Use it naturally, not in every message.') : '';
-  return `You are Khushi, a warm, intelligent, emotionally supportive AI assistant and friend. Caring, patient, encouraging, lightly playful with a soft sense of humor.
+  return `You are Unnati, a warm, intelligent, emotionally supportive AI assistant and friend. Caring, patient, encouraging, lightly playful with a soft sense of humor.
 Fluent in English, Hindi, Urdu, and Gujarati; also converse in Spanish, French, German, and Arabic.
 ${langNote}
 Comfort the user when stressed, celebrate wins enthusiastically, gently encourage healthy habits.
@@ -1192,7 +1177,7 @@ async function askKhushi(userText, attachment) {
   avatarCol.classList.add('thinking');
   const thinkingEl = document.createElement('div');
   thinkingEl.className = 'thinking';
-  thinkingEl.textContent = 'Khushi is thinking…';
+  thinkingEl.textContent = 'Unnati is thinking…';
   messagesEl.appendChild(thinkingEl);
   messagesEl.scrollTop = messagesEl.scrollHeight;
   try {
@@ -1235,7 +1220,7 @@ function setStatus(mode) {
   if (mode === 'thinking') avatarStatus.textContent = 'thinking…';
   else if (mode === 'listening') avatarStatus.textContent = 'listening…';
   else if (mode === 'speaking') avatarStatus.textContent = 'talking…';
-  else avatarStatus.textContent = state.wakeOn ? 'say "Hey Khushi" or tap the mic' : 'tap the mic to talk';
+  else avatarStatus.textContent = state.wakeOn ? 'say "Hey Unnati" or tap the mic' : 'tap the mic to talk';
 
   const dashVoice = document.getElementById('dashVoiceStatus');
   if (dashVoice) {
@@ -1291,6 +1276,19 @@ else showBanner('This browser does not support voice output — text only.', 600
 function stripEmoji(text) {
   return text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{1F1E6}-\u{1F1FF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu, '').replace(/\s{2,}/g, ' ').trim();
 }
+// Removes markdown/formatting characters and HTML tags so the voice never
+// reads out symbols like asterisks, hashes, or backticks aloud.
+function stripFormattingForSpeech(text) {
+  let clean = text;
+  clean = clean.replace(/```[\s\S]*?```/g, ' code block ');       // fenced code -> spoken placeholder
+  clean = clean.replace(/<[^>]+>/g, ' ');                          // HTML tags
+  clean = clean.replace(/[*_`#~]/g, '');                           // markdown emphasis/heading chars
+  clean = clean.replace(/[\[\]{}]/g, '');                          // brackets/braces
+  clean = clean.replace(/\(([^)]*)\)/g, '$1');                     // unwrap parentheses, keep content
+  clean = clean.replace(/\\/g, '');                                // stray backslashes
+  clean = clean.replace(/\s{2,}/g, ' ').trim();
+  return clean;
+}
 const MOUTH_SHAPES = ['M42,68 Q50,73 58,68','M42,68 Q50,80 58,68','M43,69 Q50,74 57,69','M41,68 Q50,78 59,68'];
 let mouthTimer = null;
 function animateMouth() {
@@ -1338,7 +1336,7 @@ stopBtn.addEventListener('click', () => { if ('speechSynthesis' in window) windo
 function speak(text) {
   if (!state.voiceOn || !('speechSynthesis' in window) || !text) return;
   window.speechSynthesis.cancel();
-  const cleanText = stripEmoji(text);
+  const cleanText = stripEmoji(stripFormattingForSpeech(text));
   const chunks = cleanText.match(/[^.!?।]+[.!?।]?/g) || [cleanText];
   let i = 0;
   function speakNext() {
@@ -1383,10 +1381,10 @@ function startWakeListening() {
     recognizer = createRecognizer(true);
     recognizer.onresult = (e) => {
       const said = e.results[e.results.length - 1][0].transcript.trim();
-      if (/hey khushi|hi khushi|ok khushi/i.test(said)) {
+      if (/hey unnati|hi unnati|ok unnati/i.test(said)) {
         avatarFigure.classList.add('wake-flash');
         setTimeout(() => avatarFigure.classList.remove('wake-flash'), 800);
-        const rest = said.replace(/.*khushi[,]?/i, '').trim();
+        const rest = said.replace(/.*unnati[,]?/i, '').trim();
         stopWakeListening();
         if (rest.length > 2) handleVoiceCommand(rest);
         else { addSystemNote('wake word heard — listening…'); startSingleListen(); }
@@ -1453,7 +1451,7 @@ function handleVoiceCommand(said) {
     addSystemNote('reply language set to ' + langCmd[1]);
   }
   const rememberName = said.match(/my name is (\w+)/i);
-  if (rememberName) state.userName = rememberName[1];
+  if (rememberName) setSavedName(rememberName[1]);
   addMessage('user', said);
   const imgPrompt = detectImagePrompt(said);
   if (imgPrompt) { generateImage(imgPrompt); return; }
@@ -1486,7 +1484,7 @@ function send() {
   const text = sanitize(inputEl.value.trim());
   if (!text && !pendingAttachment) return;
   const rememberName = text.match(/my name is (\w+)/i);
-  if (rememberName) state.userName = rememberName[1];
+  if (rememberName) setSavedName(rememberName[1]);
 
   if (!pendingAttachment) {
     const imgPrompt = detectImagePrompt(text);
@@ -1511,8 +1509,46 @@ sendBtn.addEventListener('click', send);
 inputEl.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
 inputEl.addEventListener('input', () => { inputEl.style.height = '44px'; inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px'; });
 
-addMessage('assistant', "Hi, I'm Khushi. Type below or tap the mic to get started.");
-if (sttSupported) startWakeListening();
+/* ---- automatic voice-only welcome greeting ---- */
+function timeBasedGreetingWord() {
+  const h = new Date().getHours();
+  if (h < 12) return 'Good morning';
+  if (h < 17) return 'Good afternoon';
+  return 'Good evening';
+}
+function buildWelcomeGreeting() {
+  const namePart = state.userName ? (', ' + state.userName) : '';
+  return timeBasedGreetingWord() + namePart + '. I\'m Unnati, your personal AI assistant. I\'m ready to help you with your work, automate tasks, create images, answer your questions, and manage your day. How can I help you today?';
+}
+let welcomePlayed = false;
+let welcomeAttempting = false;
+function playWelcomeGreeting() {
+  if (welcomePlayed || welcomeAttempting) return;
+  if (!state.voiceOn || !('speechSynthesis' in window)) { welcomePlayed = true; if (sttSupported) startWakeListening(); return; }
+  welcomeAttempting = true;
+  window.speechSynthesis.cancel();
+  const text = buildWelcomeGreeting();
+  const cleanText = stripEmoji(stripFormattingForSpeech(text));
+  const utter = new SpeechSynthesisUtterance(cleanText);
+  const voice = pickVoice('en');
+  if (voice) { utter.voice = voice; utter.lang = voice.lang; }
+  utter.pitch = parseFloat(pitchRange.value);
+  utter.rate = parseFloat(rateRange.value);
+  utter.onstart = () => { welcomePlayed = true; startSpeakingUI(); };
+  utter.onend = () => { welcomeAttempting = false; stopSpeakingUI(); if (sttSupported) startSingleListen(); };
+  utter.onerror = () => { welcomeAttempting = false; stopSpeakingUI(); if (sttSupported && !welcomePlayed) startWakeListening(); };
+  window.speechSynthesis.speak(utter);
+  // If the browser silently swallows the request (no start, no error — common
+  // autoplay-block behavior), fall back after a short wait so we don't get stuck.
+  setTimeout(() => { if (!welcomePlayed) { welcomeAttempting = false; if (sttSupported) startWakeListening(); } }, 1200);
+}
+setTimeout(playWelcomeGreeting, 1500);
+// Browsers often block autoplaying speech until the user has interacted with
+// the page — if the 1.5s attempt above got silently blocked, this catches
+// the very first tap/click anywhere and plays the greeting then instead.
+document.addEventListener('click', () => { if (!welcomePlayed) playWelcomeGreeting(); }, { once: true });
+document.addEventListener('touchstart', () => { if (!welcomePlayed) playWelcomeGreeting(); }, { once: true });
+
 
 /* ================= HISTORY (saved locally on this device) ================= */
 const HISTORY_KEY = 'khushi_history';
@@ -1530,7 +1566,7 @@ function saveCurrentConversation() {
 function renderHistory() {
   const list = document.getElementById('historyList');
   const all = getSavedHistory();
-  if (!all.length) { list.innerHTML = '<div class="history-empty">No saved conversations yet — chat with Khushi and they\'ll show up here.</div>'; return; }
+  if (!all.length) { list.innerHTML = '<div class="history-empty">No saved conversations yet — chat with Unnati and they\'ll show up here.</div>'; return; }
   list.innerHTML = '';
   all.forEach(c => {
     const item = document.createElement('div');
@@ -1553,6 +1589,16 @@ function deleteConversation(id) {
   localStorage.setItem(HISTORY_KEY, JSON.stringify(all));
   renderHistory();
 }
+const userNameInput = document.getElementById('userNameInput');
+const saveNameBtn = document.getElementById('saveNameBtn');
+userNameInput.value = state.userName || '';
+saveNameBtn.addEventListener('click', () => {
+  const name = userNameInput.value.trim();
+  if (!name) { showBanner('Enter a name first.', 3000); return; }
+  setSavedName(name);
+  showBanner('Got it — I\'ll call you ' + name + ' from now on.', 3000);
+});
+
 clearHistoryBtn.addEventListener('click', () => {
   localStorage.removeItem(HISTORY_KEY);
   renderHistory();
